@@ -10,4 +10,4 @@ RUN curl -fsSL  https://www.ericom.com/ZTEdge/downloads/Clients3.9/Linux/ztedge-
 RUN dpkg -i /tmp/ztedge-client.deb
 RUN rm -f /tmp/ztedge-client.deb
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["myTenant", "newConnector", "authKey"]
+CMD ["tenant", "connector", "key"]
