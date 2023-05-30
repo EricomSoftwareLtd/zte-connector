@@ -1,0 +1,19 @@
+version: '2.4'
+services:
+  zte_connector:
+    network_mode: bridge
+    image: 'sstarzh/zte-connector:arm-latest'
+    tty: true
+    cap_add:
+      - NET_ADMIN
+    command: tenant connector key
+networks:
+  lannet:
+    driver: bridge
+    driver_opts:
+      com.cradlepoint.network.bridge.uuid: 
+    ipam:
+      driver: default
+      config:
+        - subnet: 
+          gateway: 

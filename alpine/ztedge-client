@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Launch ztedge-client.js in the current folder
+
+SOURCE="${BASH_SOURCE[0]}"
+
+# resolve any symlinks
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+
+SD=$(dirname "$SOURCE")
+
+# to handle auto update ... if the node process
+# creates the upgrade file ... then we should run it when node exits
+export ZTE_UPGRADE_FILE=/tmp/zteupgrade.$$
+rm -f $ZTE_UPGRADE_FILE
+node $SD/ztedge-client.js "${@}"
+if [ -f $ZTE_UPGRADE_FILE ] ; then
+   # use exec so that this file is no longer in use
+   echo "Starting Upgrade"
+   exec bash $ZTE_UPGRADE_FILE
+fi
