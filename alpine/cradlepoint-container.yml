@@ -7,6 +7,11 @@ services:
     cap_add:
       - NET_ADMIN
     command: tenant connector key
+    user: root
+    restart: on-failure
+    healthcheck:
+      test:
+        - NONE
 networks:
   lannet:
     driver: bridge
