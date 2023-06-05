@@ -7,6 +7,14 @@ services:
     cap_add:
       - NET_ADMIN
     command: tenant connector key
+    user: root
+    restart: on-failure
+    healthcheck:
+      test: curl --fail http://localhost:51821/health || exit 1
+      interval: 30s
+      retries: 1
+      start_period: 20s
+      timeout: 10s
 networks:
   lannet:
     driver: bridge

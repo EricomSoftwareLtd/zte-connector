@@ -1,13 +1,15 @@
-FROM ubuntu:focal
+FROM tiredofit/alpine:3.18
 COPY ./entrypoint.sh /
 RUN chmod +x /entrypoint.sh
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install dpkg wireguard wireguard-tools at curl libc6 libc-bin iproute2 iptables -y
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x -o /nodesetup.sh
-RUN chmod +x /nodesetup.sh && /nodesetup.sh
-RUN apt-get install -y nodejs
-RUN curl -fsSL  https://www.ericom.com/ZTEdge/downloads/Clients3.9/Linux/ztedge-client.deb -o /tmp/ztedge-client.deb
-RUN dpkg -i /tmp/ztedge-client.deb
-RUN rm -f /tmp/ztedge-client.deb
+RUN mkdir -p /opt/ericom
+COPY ztedge-client ztedge-client.js utils.js package.json package-lock.json ericomshield.crt ericomshield-new.crt /opt/ericom/
+RUN chmod +x /opt/ericom/ztedge-client
+RUN apk update && apk upgrade
+RUN apk add --update dpkg wireguard-tools at curl libc6-compat libc-dev iproute2 iptables openssh
+RUN apk add --update nodejs-current npm
+RUN ln -s /opt/ericom/ztedge-client /usr/local/bin/ztedge-client
+RUN cd /opt/ericom && npm install 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["tenant", "connector", "key"]
+CMD ["myTenant", "newConnector", "authKey"]
+EXPOSE 51821
+EXPOSE 51820/udp
