@@ -1,4 +1,4 @@
-FROM alpine:3.18.0
+FROM tiredofit/alpine:3.18
 COPY ./entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 RUN mkdir -p /opt/ericom
