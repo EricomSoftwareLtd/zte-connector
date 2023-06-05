@@ -11,4 +11,5 @@ RUN ln -s /opt/ericom/ztedge-client /usr/local/bin/ztedge-client
 RUN cd /opt/ericom && npm install 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["myTenant", "newConnector", "authKey"]
+EXPOSE 51821
 EXPOSE 51820/udp

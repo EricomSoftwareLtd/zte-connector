@@ -5,5 +5,5 @@ arg3=${3}
 arg4=${4}
 arg5=${5}
 # Run the script in a connector mode if arg4='--connector'. Enable debug if arg5='--debug'
-/usr/local/bin/ztedge-client new $arg1 $arg2 $arg4 --password $arg3 $arg5 --listen-port 51820
+/usr/local/bin/ztedge-client new $arg1 $arg2 $arg4 --password $arg3 $arg5 --listen-port 51820 --health-check-port 51821
 tail -f /dev/null
