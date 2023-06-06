@@ -27,9 +27,6 @@ Running in the client mode:
 ```bash
 docker run -ti --cap-add=NET_ADMIN --sysctl="net.ipv4.ip_forward=1" sstarzh/zte-connector:alpine.latest <tenant name> <user> <password> [--debug]
 ```
-<p align="left">
-  <img src="images/cp.png"/>
-</p>
 
 ## Health checks
 
@@ -42,6 +39,10 @@ docker run -ti --cap-add=NET_ADMIN --sysctl="net.ipv4.ip_forward=1" sstarzh/zte-
 ```
 
 By default this container exposes port 51821/tcp and uses `/health` path. 
+
+<p align="left">
+  <img src="images/cp.png"/>
+</p>
 
 ## Deploying in Cradlepoint router
 
