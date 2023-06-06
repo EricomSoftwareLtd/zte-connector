@@ -2,7 +2,10 @@ version: '2.4'
 services:
   zte_connector:
     network_mode: bridge
-    image: 'sstarzh/zte-connector:arm-latest'
+    image: 'sstarzh/zte-connector:alpine.latest'
+    ports:
+      - "51820:51820/udp"
+      - "51821:51821"
     tty: true
     cap_add:
       - NET_ADMIN
@@ -15,13 +18,3 @@ services:
       retries: 1
       start_period: 20s
       timeout: 10s
-networks:
-  lannet:
-    driver: bridge
-    driver_opts:
-      com.cradlepoint.network.bridge.uuid: 
-    ipam:
-      driver: default
-      config:
-        - subnet: 
-          gateway: 
