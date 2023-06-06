@@ -31,6 +31,18 @@ docker run -ti --cap-add=NET_ADMIN --sysctl="net.ipv4.ip_forward=1" sstarzh/zte-
   <img src="images/cp.png"/>
 </p>
 
+## Health checks
+
+**ztedge-client** supports HTTP health checks. The following parameters are configurable:
+
+```bash
+    --health-check-port <port>              health check port (0 for none) (default: 0)
+    --health-check-path <path>              health check path (default: "/health")
+    --health-check-timeout <sec>            how long the connection should be down (sec) for health check failure (default: 60)
+```
+
+By default this container exposes port 51821/tcp and uses `/health` path. 
+
 ## Deploying in Cradlepoint router
 
 ### Login to NetCloud Manager and select Configuration -> Edit
@@ -72,14 +84,12 @@ docker run -ti --cap-add=NET_ADMIN --sysctl="net.ipv4.ip_forward=1" sstarzh/zte-
   <img src="images/commit.png"/>
 </p>
 
-## Health check
+8. In the main dashboard navigate to **Containers** and ensure that the status of the *zte-connector* container is **Running**
 
-**ztedge-client** supports HTTP health checks. The following parameters are configurable:
+<p align="center">
+  <img src="images/containers.png"/>
+</p>
 
-```bash
-    --health-check-port <port>              health check port (0 for none) (default: 0)
-    --health-check-path <path>              health check path (default: "/health")
-    --health-check-timeout <sec>            how long the connection should be down (sec) for health check failure (default: 60)
-```
-
-By default this container exposes port 51821/tcp and uses `/health` path. 
+<p align="center">
+  <img src="images/running.png"/>
+</p>
