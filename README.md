@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/ericom.png" width=800/>
+  <img src="images/ericom.png" width=200/>
 </p>
 
 # Ericom/Cradlepoint ZTEdge Connector
@@ -28,7 +28,7 @@ Running in the client mode:
 docker run -ti --cap-add=NET_ADMIN --sysctl="net.ipv4.ip_forward=1" sstarzh/zte-connector:alpine.latest <tenant name> <user> <password> [--debug]
 ```
 <p align="center">
-  <img src="images/cp.png" width=800/>
+  <img src="images/cp.png" width=200/>
 </p>
 
 ## Deploying in Cradlepoint router
