@@ -63,9 +63,9 @@ By default this container exposes port 51821/tcp and uses `/health` path.
 
 4. Copy the content of the [cradlepoint-container.yml](https://github.com/sstarzh/zte-connector/blob/main/cradlepoint-container.yml) and paste in the opened window. 
 
-> **_NOTE:_** You need to provide the correct values for <tenant> <connector name> <key>.
+> **_NOTE:_** You need to provide the correct values for **tenant** **connector** and **key**
 
-```bash
+```yaml
 command: tenant connector key
 ```
 
