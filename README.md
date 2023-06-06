@@ -6,7 +6,7 @@
 Ericom ZTEdge Connector in a docker container
 zte-client has been integrated into docker environment to allow for easy deployments in Cradlepoint routers. 
 
-*Notes: Not all Cradlepoint models support docker containers. Please refer to specific router documentation to determine if it is compatible with the current project.
+> **_NOTE:_** Not all Cradlepoint models support docker containers. Please refer to specific router documentation to determine if it is compatible with the current project.
 
 The **zte-client** can be used as a client or as a connector. Cradlepoint routers use connector mode.
 
@@ -61,11 +61,19 @@ By default this container exposes port 51821/tcp and uses `/health` path.
   <img src="images/project_config.png"/>
 </p>
 
-4. Copy the content of the [[cradlepoint-container.yml]](https://github.com/sstarzh/zte-connector/blob/main/cradlepoint-container.yml) and paste in the opened window. Then click on **Compose Builder**
+4. Copy the content of the [cradlepoint-container.yml](https://github.com/sstarzh/zte-connector/blob/main/cradlepoint-container.yml) and paste in the opened window. 
+
+> **_NOTE:_** You need to provide the correct values for <tenant> <connector name> <key>.
+
+```bash
+command: tenant connector key
+```
 
 <p align="center">
   <img src="images/yaml.png"/>
 </p>
+
+Then click on **Compose Builder**
 
 5. The name of the service under **Services** menu will be pre-populated. Click on *Add* under **Networks** tab and select **Primary LAN** from the list. Then click **Save** in the pop-up window and click **Save** on the bottom of the wizard window.
 
