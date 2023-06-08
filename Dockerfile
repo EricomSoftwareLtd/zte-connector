@@ -8,7 +8,7 @@ RUN apk update && apk upgrade
 RUN apk add --update dpkg wireguard-tools at curl libc6-compat libc-dev iproute2 iptables openssh
 RUN apk add --update nodejs-current npm
 RUN ln -s /opt/ericom/ztedge-client /usr/local/bin/ztedge-client
-RUN cd /opt/ericom && npm install 
+RUN cd /opt/ericom && npm install --omit=dev
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["myTenant", "newConnector", "authKey"]
 EXPOSE 51821
