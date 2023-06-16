@@ -9,7 +9,7 @@ services:
     tty: true
     cap_add:
       - NET_ADMIN
-    command: tenant connector key
+    command: tenant connector key --connector
     user: root
     restart: on-failure
     healthcheck:
