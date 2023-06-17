@@ -9,6 +9,8 @@ services:
     tty: true
     cap_add:
       - NET_ADMIN
+    sysctls:
+      - net.ipv4.ip_forward=1
     command: tenant connector key --connector
     user: root
     restart: on-failure
