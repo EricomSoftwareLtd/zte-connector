@@ -48,6 +48,10 @@ By default this container exposes port 51821/tcp and uses `/health` path.
 
 ## Deploying in Cradlepoint router
 
+<p align="center">
+  <img src="images/ztna.png"/>
+</p>
+
 ### Login to NetCloud Manager and select Configuration -> Edit
 
 1. Under the *Edit* tab navigate to **SYSTEM** -> **Containers** -> **Projects**
