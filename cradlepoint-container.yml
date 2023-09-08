@@ -11,7 +11,7 @@ services:
       - NET_ADMIN
     sysctls:
       - net.ipv4.ip_forward=1
-    command: tenant connector key --connector
+    command: tenant_name connector_name auth_key api_key tenantID
     user: root
     restart: on-failure
     healthcheck:

@@ -10,7 +10,7 @@ zte-client has been integrated into docker environment to allow for easy deploym
 
 > **_NOTE:_** Not all Cradlepoint models support docker containers. Please refer to specific router documentation to determine if it is compatible with the current project.
 
-The **zte-client** can be used as a client or as a connector. Cradlepoint routers use connector mode.
+The **zte-client** can be used as a client or as a connector. Cradlepoint routers use connector mode and therefore this guide covers connector mode only.
 
 To pull the container:
 
@@ -21,26 +21,18 @@ docker pull sstarzh/zte-connector:alpine.latest
 Running in the connector mode:
 
 ```bash
-docker run -ti --cap-add=NET_ADMIN --sysctl="net.ipv4.ip_forward=1" -p 51821:51821 sstarzh/zte-connector:alpine.latest <tenant name> <connector name> <key> --connector [--debug]
+docker run -ti --cap-add=NET_ADMIN --sysctl="net.ipv4.ip_forward=1" -p 51821:51821 sstarzh/zte-connector:alpine.latest <tenant name> <connector name> <key> [<API key>] [<Tenant ID>]
 ```
-
-Running in the client mode:
 
 ```bash
-docker run -ti --cap-add=NET_ADMIN --sysctl="net.ipv4.ip_forward=1" sstarzh/zte-connector:alpine.latest <tenant name> <user> <password> [--debug]
+[<API key>] [<Tenant ID>] OPTIONAL parameters to be supplied if public IP update is required. In most cases this is applicable to containers running on Cradlepoint devices that use cellular connectivity and therefore do not have a static IP address.
 ```
+
+> **_NOTE:_** If you are using a container on a Cradlepoint device that uses cellular connectivity, you will need to supply the API key and tenant ID.
 
 ## Health checks
 
-**ztedge-client** supports HTTP health checks. The following parameters are configurable:
-
-```bash
-    --health-check-port <port>              health check port (0 for none) (default: 0)
-    --health-check-path <path>              health check path (default: "/health")
-    --health-check-timeout <sec>            how long the connection should be down (sec) for health check failure (default: 60)
-```
-
-By default this container exposes port 51821/tcp and uses `/health` path. 
+**ztedge-client** supports HTTP health checks. By default this container exposes port 51821/tcp and uses `/health` path. 
 
 <p align="left">
   <img src="images/cp.png"/>

@@ -10,6 +10,6 @@ RUN apk add --update nodejs-current npm
 RUN ln -s /opt/ericom/ztedge-client /usr/local/bin/ztedge-client
 RUN cd /opt/ericom && npm install --omit=dev
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["myTenant", "newConnector", "authKey"]
+CMD ["myTenant", "newConnector", "authKey", "apiKey", "tenantId"]
 EXPOSE 51821
 EXPOSE 51820/udp
