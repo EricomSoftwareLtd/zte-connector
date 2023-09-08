@@ -64,7 +64,7 @@ docker run -ti --cap-add=NET_ADMIN --sysctl="net.ipv4.ip_forward=1" -p 51821:518
 > **_NOTE:_** You need to provide the correct values for **tenant** **connector** and **key**
 
 ```yaml
-command: tenant connector key
+command: tenant_name connector_name auth_key [api_key] [tenant_id]
 ```
 
 <p align="center">
