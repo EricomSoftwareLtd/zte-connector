@@ -11,16 +11,17 @@ then
 #build auth JSON
 printf "Authenticating...\n"
 auth='{"tenantID": "'"$arg5"'", "key": "'"$arg4"'" }'
-curl -c /tmp/cookies.txt -X POST -H "Content-Type: application/json" "https://ztadmin.ericomcloud.net/api/v1/auth" -d "$auth" -o /tmp/auth.json
+curl -s -c /tmp/cookies.txt -X POST -H "Content-Type: application/json" "https://ztadmin.ericomcloud.net/api/v1/auth" -d "$auth" -o /tmp/auth.json
 jwt=$(grep -o '"JWT".*' /tmp/auth.json| cut -d: -f2 |cut -d, -f1 | cut -d ' ' -f 2|tr -d '"' )
+cookie=$(grep -o 'route.*' /tmp/cookies.txt| awk '{$0=tolower($0);$1=$1}1' | cut -d ' ' -f 2 )
 
 #Update the connector public IP
 printf "Determining the public IP...\n"
-public_ip=$(curl "https://ifconfig.me")
+public_ip=$(curl -s "https://ifconfig.me")
 printf "Public IP: $public_ip\n"
 printf "Updating the connector public IP on ZTEdge side...\n"
 upd_json='{"public_ip": "'"$public_ip"'" }'
-upd=$(curl -X PATCH "https://ztadmin.ericomcloud.net/api/v1/ztna/connector/$arg2" -H "Content-Type: application/json" -H "Authorization: Bearer "$jwt"" -H "Cookie: route=$cookie" -d "$upd_json")
+curl -s -X PATCH "https://ztadmin.ericomcloud.net/api/v1/ztna/connector/$arg2" -H "Content-Type: application/json" -H "Authorization: Bearer "$jwt"" -H "Cookie: route=$cookie" -d "$upd_json" --write-out '%{http_code}'
 printf "Done\n"
 sleep 5
 fi
