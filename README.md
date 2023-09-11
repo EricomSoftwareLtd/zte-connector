@@ -38,6 +38,12 @@ docker run -ti --cap-add=NET_ADMIN --sysctl="net.ipv4.ip_forward=1" -p 51821:518
   <img src="images/cp.png"/>
 </p>
 
+## External IP automatic updates
+
+The connector container checks its' external IP every 60 seconds. If it detects that the IP has changed, it updates the IP on ZTEdge side and restarts the connenctor process.
+
+> **_NOTE:_** This feature is only applicable to containers running on Cradlepoint devices that use cellular connectivity and therefore may not have a static IP address. 
+
 ## Deploying in Cradlepoint router
 
 <p align="center">
