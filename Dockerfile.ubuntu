@@ -1,13 +1,12 @@
-FROM tiredofit/alpine:3.18
+FROM ubuntu:23.10
 COPY ./entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 RUN mkdir -p /opt/ericom
 COPY ztedge-client ztedge-client.js utils.js package.json package-lock.json ericomshield.crt ericomshield-new.crt /opt/ericom/
 RUN chmod +x /opt/ericom/ztedge-client
-RUN apk update && apk upgrade
-RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing wireguard-go
-RUN apk add --update dpkg wireguard-tools linux-headers at curl libc6-compat libc-dev iproute2 iptables openssh openssl
-RUN apk add --update nodejs-current npm
+RUN apt-get update && apt-get -y upgrade
+RUN apt-get install -y dpkg wireguard at curl libc-dev iproute2 iptables openssl
+RUN apt-get install -y nodejs npm
 RUN ln -s /opt/ericom/ztedge-client /usr/local/bin/ztedge-client
 RUN cd /opt/ericom && npm install --omit=dev
 ENTRYPOINT ["/entrypoint.sh"]
