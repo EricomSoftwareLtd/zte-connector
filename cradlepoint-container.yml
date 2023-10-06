@@ -1,19 +1,23 @@
 version: '2.4'
 services:
   zte_connector:
-    network_mode: bridge
-    image: 'sstarzh/zte-connector:alpine.latest'
-    ports:
-      - "51820:51820/udp"
-      - "51821:51821"
+    image: 'sstarzh/zte-connector:ubuntu.latest'
     tty: true
     cap_add:
       - NET_ADMIN
     sysctls:
       - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=0
     command: tenant_name connector_name auth_key api_key tenantID
     user: root
     restart: on-failure
+    ports:
+      - '51820:51820/udp'
+    networks:
+      - lannet
+    devices:
+      - '/dev/net/tun:/dev/net/tun'
     healthcheck:
       test: curl --fail http://localhost:51821/health || exit 1
       interval: 30s
