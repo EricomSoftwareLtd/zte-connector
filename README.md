@@ -15,13 +15,13 @@ The **zte-client** can be used as a client or as a connector. Cradlepoint router
 To pull the container:
 
 ```bash
-docker pull sstarzh/zte-connector:alpine.latest
+docker pull sstarzh/zte-connector:latest
 ```
 
 Running in the connector mode:
 
 ```bash
-docker run -ti --cap-add=NET_ADMIN --sysctl="net.ipv4.ip_forward=1" -p 51821:51821 sstarzh/zte-connector:alpine.latest <tenant name> <connector name> <key> [<API key>] [<Tenant ID>]
+docker run -ti --cap-add=NET_ADMIN --sysctl="net.ipv4.ip_forward=1" -p 51821:51821 sstarzh/zte-connector:latest <tenant name> <connector name> <key> [<API key>] [<Tenant ID>]
 ```
 
 ```bash
