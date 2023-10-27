@@ -53,6 +53,15 @@ update_ip
 # Run the script in a connector mode.
 printf "$(date +%m-%d-%Y-%T) Starting the connector...\n" |& tee -a ${LOG_FILE}
 /usr/local/bin/ztedge-client new $arg1 $arg2 --connector --password $arg3 --listen-port 51820 --health-check-port 51821 &
+# Check the status of the connector.
+sleep 10;
+status="$(/usr/local/bin/ztedge-client status)"
+if [[ $status =~ "Tunnel is not active" ]]; then
+    printf "$(date +%m-%d-%Y-%T) Config exists. Starting the connector...\n" |& tee -a ${LOG_FILE}
+    /usr/local/bin/ztedge-client up
+else
+    printf "$(date +%m-%d-%Y-%T) $status\n" |& tee -a ${LOG_FILE}
+fi
 while true;
     do
     sleep 60;
