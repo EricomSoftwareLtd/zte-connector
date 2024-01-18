@@ -32,7 +32,7 @@ update_ip () {
             #build auth JSON
             printf "$(date +%m-%d-%Y-%T) Authenticating...\n" |& tee -a ${LOG_FILE}
             auth='{"tenantID": "'"$arg5"'", "key": "'"$arg4"'" }'
-            curl -s -c /tmp/cookies.txt -X POST -H "Content-Type: application/json" "https://ztadmin.ericomcloud.net/api/v1/auth" -d "$auth" -o /tmp/auth.json
+            curl -s -c /tmp/cookies.txt -X POST -H "Content-Type: application/json" "https://cloud-demo-ztadmin.ericomcloud.net/api/v1/auth" -d "$auth" -o /tmp/auth.json
             jwt=$(grep -o '"JWT".*' /tmp/auth.json| cut -d: -f2 |cut -d, -f1 | cut -d ' ' -f 2|tr -d '"' )
             cookie=$(grep -o 'route.*' /tmp/cookies.txt| awk '{$0=tolower($0);$1=$1}1' | cut -d ' ' -f 2 )
 
@@ -42,7 +42,7 @@ update_ip () {
             public_ip=$ext_ip
             printf "$(date +%m-%d-%Y-%T) Updating the connector public IP on ZTEdge side...\n" |& tee -a ${LOG_FILE}
             upd_json='{"public_ip": "'"$public_ip"'" }'
-            curl -s -X PATCH "https://ztadmin.ericomcloud.net/api/v1/ztna/connector/$arg2" -H "Content-Type: application/json" -H "Authorization: Bearer "$jwt"" -H "Cookie: route=$cookie" -d "$upd_json" --write-out '%{http_code}'
+            curl -s -X PATCH "https://cloud-demo-ztadmin.ericomcloud.net/api/v1/ztna/connector/$arg2" -H "Content-Type: application/json" -H "Authorization: Bearer "$jwt"" -H "Cookie: route=$cookie" -d "$upd_json" --write-out '%{http_code}'
             printf "$(date +%m-%d-%Y-%T) Done\n" |& tee -a ${LOG_FILE}
             sleep 5
     fi
@@ -62,31 +62,23 @@ if [[ $status =~ "Tunnel is not active" ]]; then
 else
     printf "$(date +%m-%d-%Y-%T) $status\n" |& tee -a ${LOG_FILE}
 fi
-if [ -n "$arg4" ];
-    then
-        while true;
-            do
-            sleep 60;
-            check_ip=$(check_ext_ip)
-                if [ $check_ip == $public_ip ];
+while true;
+    do
+    sleep 60;
+    check_ip=$(check_ext_ip)
+        if [ $check_ip == $public_ip ];
+        then
+            printf "."
+        else
+            if [ -z $check_ip ];
                 then
-                    printf "."
+                    printf "$(date +%m-%d-%Y-%T) Unable to determine external IP!\n" |& tee -a ${LOG_FILE}
                 else
-                    if [ -z $check_ip ];
-                        then
-                            printf "$(date +%m-%d-%Y-%T) Unable to determine external IP!\n" |& tee -a ${LOG_FILE}
-                        else
-                            printf "$(date +%m-%d-%Y-%T) Connector public IP changed: $check_ip. Updating IP in ZTEdge now...\n" |& tee -a ${LOG_FILE}
-                    fi
-                    update_ip
-                    /usr/local/bin/ztedge-client down
-                    sleep 5
-                    /usr/local/bin/ztedge-client up &
-                fi
-            done
-    else
-        while true;
-            do
-            sleep 60;
-            done
-fi
+                    printf "$(date +%m-%d-%Y-%T) Connector public IP changed: $check_ip. Updating IP in ZTEdge now...\n" |& tee -a ${LOG_FILE}
+            fi
+            update_ip
+            /usr/local/bin/ztedge-client down
+            sleep 5
+            /usr/local/bin/ztedge-client up &
+        fi
+    done
